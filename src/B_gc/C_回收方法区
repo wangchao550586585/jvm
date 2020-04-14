@@ -1,0 +1,34 @@
+回收方法区
+回收2部分：废弃常量和无用的类
+回收废弃常量与java堆中的对象类似，
+	如：字符串进入常量池，但是当前系统没有任何一个String对象引用常量池中的abc常量。
+	常量池中的其他类(接口)，方法，字段的符号引用类似
+回收无用的类，要满足以下3条件,才可以被回收
+	1：该类所有的实例都已经被回收，也就是java堆中不存在该类的任何实例
+	2：加载该类的ClassLoader已经被回收
+	3：该类对应的java.lang.Class对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法
+仅仅时可以被回收，具体回收需要看参数配置
+HotSpot虚拟机
+-Xnoclassgc:是否对类进行回收
+-verbose:class
+-XX:+TraceClassLoading:查看类的加载信息
+-XX:+TraceClassUnloading:查看类的卸载信息(需要fastdebyg版的虚拟机支持)
+
+-verbose:class，-XX:+TraceClassLoading可以在Product版的虚拟机使用
+-XX:+TraceClassUnloading需要fastdebyg版的虚拟机支持
+	
+建议：在大量使用反射，动态代理，CGLib等bytecode框架的场景，
+以及动态生成jsp和OSGi这类频繁自定义的ClassLoader的场景
+都需要虚拟机具备类卸载的功能，以保证永久代不会溢出
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

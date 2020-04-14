@@ -1,0 +1,68 @@
+-Dcom.sun.management.jmxremote:开启JMX管理功能(jdk1.6以上默认开启),1.6以下需要开启JMX管理功能，否则由于部分工具都是基于JMX的，因此无法使用
+
+///////
+jps(JVM process Status Tool):虚拟机进程状况工具
+			列出正在运行的虚拟机进程，
+			显示虚拟机执行主类(Main Class,main()函数所在类)的名称，
+			进程在本地虚拟机的唯一ID(LVMID local Virtual Machine Identifier)
+			通过RMI协议查询开启RMI服务的远程虚拟机进程状态
+
+LVMID与操作系统的进程id(PID,Process Identifier)一致
+
+jps命令格式
+jps [options][hostid]
+hostid:RMI注册表中注册的主机名
+
+//////
+jstat(JVM statistics Monitoring Tool)：监视虚拟机各种运行状态信息工具
+		显示本地或远程虚拟机进程中的类装载，内存，垃圾收集，JIT编译等运行数据
+命令格式
+	jstat[option vimd [interval[s|ms][count]]]
+	本地虚拟机进程vmid和lvmid一致
+	远程虚拟机进程，vmid格式为[protocol:][//]lvmid[@hostname[:port]/servername]
+	interval与count表示：查询间隔和次数，省略默认查询一次
+	opt：用户希望查询的虚拟机信息，类装载，垃圾收集，运行期编译状况
+
+///////////
+jinfo ：java配置信息工具
+实时查看和调整虚拟机的各项参数
+-v:查看虚拟机启动时显示指定的参数列表
+-flag:未被显式指定的参数的系统默认值(1.6及以上，使用java -XX:+PrintFlagsFinal也可以)
+-sysprops:打印虚拟机进程的System.getProperties()
+JDK1.6之后:-flag [+|-]name或者 -flag name=value修改一部分运行期间可写的虚拟机参数值
+命令
+jinfo [option] pid
+
+///////
+jmap:java内存映像工具
+用于生成堆转换快照(一般称之为heapdump/dump文件)，查询finalize执行队列，java堆和永久代的详细信息(如空间使用率，当前用的是那种收集器等)
+也可以使用-XX:+HeapDumpOnOutOfMemoryError参数：虚拟机在OOM异常出现之后自动生成dump文件
+-XX:+HeapDumpOnCtrlBreak:可以使用Ctrl+Break键让虚拟机生成dump文件，
+Linux可以使用Kill -3发出进程退出信号，生成dump文件
+-dump/-histo只能在window使用，其余选项，只能在linux/solaris使用
+命令格式
+jmap [option] vmid
+
+/////////////
+jhat:分析jmap生成的堆转储快照
+内置卫星的HTTP/HTML服务器，生成的dump文件分析结果后可以在浏览器中查看,分析结果默认包单位分组
+http://localhost:7000/
+局限，分析耗时且消耗硬件资源，功能过于简陋
+命令格式
+jhat dump文件路径
+
+///////////
+jstack:java堆栈跟踪工具
+生成虚拟机当前时刻的线程快照(一般称之为threaddump/javacore文件)
+线程快照就是当前虚拟机内每一条线程正在执行的堆栈的集合
+线程快照主要目的定位线程出现长时间停顿的原因(如线程间死锁，死循环..)
+命令格式
+jstack [option] vmid
+java.lang.Thread#getAllStackTraces()用于获取虚拟机中所有线程的StackTraceElement对象，可以完成jstack大部分功能
+
+
+
+
+
+
+

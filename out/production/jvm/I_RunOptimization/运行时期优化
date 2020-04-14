@@ -1,0 +1,5 @@
+即时编译器:提高热点代码(某方法or代码块运行频繁)的执行效率,在运行时,虚拟机会把代码编译成与本地平台相关的机器码,进行各层次优化
+解释器:解释代码。
+Java -version :混合模式 mixed mode
+Java -Xint -version :强制运行解释模式 interpreted mode
+Java -Xcomp -version :强制虚拟机运行编译模式,编译无法进行解释器执行 compiled mode
